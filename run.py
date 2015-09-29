@@ -12,21 +12,30 @@ import signal
 def loop(client, src, dst, react_to, notify):
     """ Loop through Docker events and react to proper ones.
     """
+    walk_convert(client, src, dst)
+    send_notify(client, notify)
     for event in client.events():
         obj = json.loads(event.decode("utf-8"))
         if obj["status"] not in react_to:
-            print("Gathering container data...")
-            containers = [client.inspect_container(container["Id"])
-                          for container in client.containers()]
-            print("Parsing templates...")
-            walk_convert(containers, src, dst)
-            for container in notify:
-                client.kill(container, signal.SIGHUP)
+            walk_convert(client, src, dst)
+            send_notify(client, notify)
 
 
-def walk_convert(containers, src, dst):
+def send_notify(client, containers):
+    """ Send SIGHUP to the given containers.
+    """
+    print("Notifying containers: {0}".format(containers))
+    if containers is not None:
+        for container in containers:
+            client.kill(container, signal.SIGHUP)
+
+
+def walk_convert(client, src, dst):
     """ Walk through all subdirectories and convert files.
     """
+    print("Gathering container data...")
+    containers = [client.inspect_container(container["Id"])
+                  for container in client.containers()]
     for dirpath, dirnames, filenames in os.walk(src):
         relpath = os.path.relpath(src, dirpath)
         for dirname in dirnames:
