@@ -1,6 +1,6 @@
 FROM python:3
 
-RUN pip install docker-py
+RUN pip install docker-py Jinja2
 
 ADD run.py /
 
