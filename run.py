@@ -6,6 +6,7 @@ import json
 import argparse
 import os
 import sys
+import signal
 
 
 def loop(client, src, dst, react_to, notify):
@@ -19,6 +20,8 @@ def loop(client, src, dst, react_to, notify):
                           for container in client.containers()]
             print("Parsing templates...")
             walk_convert(containers, src, dst)
+            for container in notify:
+                client.kill(container, signal.SIGHUP)
 
 
 def walk_convert(containers, src, dst):
