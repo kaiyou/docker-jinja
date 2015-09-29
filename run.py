@@ -3,11 +3,12 @@
 import docker
 import jinja2
 import json
+import argparse
 import os
 import sys
 
 
-def loop(client, react_to, src, dst):
+def loop(client, src, dst, react_to, notify):
     """ Loop through Docker events and react to proper ones.
     """
     for event in client.events():
@@ -36,7 +37,12 @@ def walk_convert(containers, src, dst):
 
 
 if __name__ == "__main__":
-    url, src, dst = sys.argv[1:4]
-    react_to = sys.argv[4:]
-    client = docker.Client(version="1.18", base_url=url)
-    loop(client, react_to, src, dst)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url", help="Docker socket URL")
+    parser.add_argument("src", help="Source directory for the templates")
+    parser.add_argument("dst", help="Destination directory")
+    parser.add_argument("-t", "--type", nargs="+", help="Event type")
+    parser.add_argument("-n", "--notify", nargs="+", help="Notify containers")
+    args = parser.parse_args()
+    client = docker.Client(version="1.18", base_url=args.url)
+    loop(client, args.src, args.dst, args.type, args.notify)
