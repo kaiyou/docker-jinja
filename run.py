@@ -45,7 +45,7 @@ def walk_convert(client, src, dst):
     for dirpath, dirnames, filenames in os.walk(src):
         relpath = os.path.relpath(src, dirpath)
         for dirname in dirnames:
-            os.makedirs(os.path.join(dst, relpath, dirname), exit_ok=True)
+            os.makedirs(os.path.join(dst, relpath, dirname), exist_ok=True)
         for filename in filenames:
             print("Rendering {0}".format(filename))
             with open(os.path.join(dirpath, filename), "r") as src_file:
