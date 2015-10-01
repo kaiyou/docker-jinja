@@ -16,7 +16,7 @@ def loop(client, src, dst, react_to, notify):
     send_notify(client, notify)
     for event in client.events():
         obj = json.loads(event.decode("utf-8"))
-        if obj["status"] not in react_to:
+        if obj["status"] in react_to:
             walk_convert(client, src, dst)
             send_notify(client, notify)
 
