@@ -15,6 +15,7 @@ import sys
 import signal
 
 
+
 def loop(client, src, dst, react_to, notify):
     """ Loop through Docker events and react to proper ones.
     """
@@ -33,7 +34,10 @@ def send_notify(client, containers):
     print("Notifying containers: {0}".format(containers))
     if containers is not None:
         for container in containers:
-            client.kill(container, signal.SIGHUP)
+            try:
+                client.kill(container, signal.SIGHUP)
+            except docker.errors.NotFound:
+                print("Container {0} not found".format(container))
 
 
 def walk_convert(client, src, dst):
