@@ -1,6 +1,10 @@
 Jinja configuration templates for Docker
 ========================================
 
+*Warning: this script is still an early version and should only be used
+for production with great care and much testing. For instance, exceptions
+are not handled yet and the container will crash in many cases.*
+
 This project is based on the awesome ``tiller`` principle and the amazing
 ``docker-gen`` by jwilder. It ships as a Docker containers that listens
 on the Docker socket for specific events then walk through a directory
