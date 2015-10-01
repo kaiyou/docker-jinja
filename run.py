@@ -13,6 +13,7 @@ import argparse
 import os
 import sys
 import signal
+import utils
 
 
 
@@ -55,7 +56,8 @@ def walk_convert(client, src, dst):
             with open(os.path.join(dirpath, filename), "r") as src_file:
                 template = jinja2.Template(src_file.read())
             with open(os.path.join(dst, relpath, filename), "w") as dst_file:
-                dst_file.write(template.render(containers = containers))
+                dst_file.write(template.render(
+                    containers=containers, utils=utils))
 
 
 if __name__ == "__main__":

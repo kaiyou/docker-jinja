@@ -2,8 +2,8 @@ FROM python:3
 
 RUN pip install docker-py Jinja2
 
-ADD run.py /
+ADD run.py utils.py /
 
-VOLUMES ["/docker.sock", "/src", "/dst"]
+VOLUME ["/docker.sock", "/src", "/dst"]
 
-CMD ["/run.py", "/docker.sock", "/src", "/dst"]
+ENTRYPOINT ["/run.py", "unix:///docker.sock", "/src", "/dst", "-t", "start", "die"]

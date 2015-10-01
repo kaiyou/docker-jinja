@@ -5,6 +5,11 @@ Jinja configuration templates for Docker
 for production with great care and much testing. For instance, exceptions
 are not handled yet and the container will crash in many cases.*
 
+**Security warning: this script is mostly intended for devops under the
+asumption that templates are managed with the same security policy as the
+script itself. The ``utils`` module that is passed to the Jinja renderer
+makes executing arbitrary code from the template a piece of cake.**
+
 This project is based on the awesome ``tiller`` principle and the amazing
 ``docker-gen`` by jwilder. It ships as a Docker containers that listens
 on the Docker socket for specific events then walk through a directory
