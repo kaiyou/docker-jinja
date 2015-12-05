@@ -48,11 +48,11 @@ def walk_convert(client, src, dst):
     containers = [client.inspect_container(container["Id"])
                   for container in client.containers()]
     for dirpath, dirnames, filenames in os.walk(src):
-        relpath = os.path.relpath(src, dirpath)
+        relpath = os.path.relpath(dirpath, src)
         for dirname in dirnames:
             os.makedirs(os.path.join(dst, relpath, dirname), exist_ok=True)
         for filename in filenames:
-            print("Rendering {0}".format(filename))
+            print("Rendering {0}".format(os.path.join(relpath, filename)))
             with open(os.path.join(dirpath, filename), "r") as src_file:
                 template = jinja2.Template(src_file.read())
             with open(os.path.join(dst, relpath, filename), "w") as dst_file:
