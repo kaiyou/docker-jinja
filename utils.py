@@ -1,6 +1,10 @@
 import os
 
 
+def dict_keys(dictionary):
+    return list(dictionary.keys())
+
+
 def file_exists(filename):
     return os.path.exists(filename)
 
