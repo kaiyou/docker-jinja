@@ -10,7 +10,7 @@ def file_exists(filename):
 
 
 def get_env(container):
-    env = container["Config"]["Env"]
+    env = container["Config"]["Env"] or dict()
     return dict(map(lambda var: var.split("=", 1), env))
 
 
