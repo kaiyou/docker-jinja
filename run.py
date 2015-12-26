@@ -36,7 +36,7 @@ def send_notify(client, containers):
     if containers is not None:
         for container in containers:
             try:
-                client.kill(container, signal.SIGHUP)
+                client.kill(container, signal.SIGHUP.value)
             except docker.errors.NotFound:
                 print("Container {0} not found".format(container))
 
