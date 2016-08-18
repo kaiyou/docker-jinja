@@ -22,9 +22,7 @@ def get_ssl(path, domain):
     If a certificate is found for a parent domain, it will be used as a
     wildcard certificate with no further check.
     """
-    parts = domain.split(".")
-    while parts:
-        domain = ".".join(parts)
-        if os.path.exists(os.path.join(path, "%s.crt" % domain)):
-            return "%s.crt" % domain, "%s.key" % domain
-        parts.pop(0)
+    parent = domain[domain.find(".")+1:]
+    for checked in (parent, domain):
+        if os.path.exists(os.path.join(path, "%s.crt" % checked)):
+            return "%s.crt" % checked, "%s.key" % checked
