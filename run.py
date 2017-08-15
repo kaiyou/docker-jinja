@@ -81,9 +81,12 @@ if __name__ == "__main__":
     parser.add_argument("url", help="Docker socket URL")
     parser.add_argument("src", help="Source directory for the templates")
     parser.add_argument("dst", help="Destination directory")
+    parser.add_argument("-i", "--init", required=False, help="Init command")
     parser.add_argument("-t", "--type", nargs="+", help="Event type")
     parser.add_argument("-n", "--notify", nargs="+", help="Notify containers")
     parser.add_argument("-c", "--command", required=False, help="Notify command")
     args = parser.parse_args()
+    if args.init:
+        os.system(args.init)
     client = docker.Client(base_url=args.url)
     loop(client, args.src, args.dst, args.type, args.notify, args.command)
