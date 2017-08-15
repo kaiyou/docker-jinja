@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3-alpine36
 
 RUN pip install docker-py Jinja2
 
