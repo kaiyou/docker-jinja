@@ -62,7 +62,7 @@ def walk_convert(client, src, dst):
     )
     containers = [client.inspect_container(container["Id"])
                   for container in client.containers()]
-    pprint.pprint(containers)
+    os.makedirs(dst, exist_ok=True)
     for dirpath, dirnames, filenames in os.walk(src):
         relpath = os.path.relpath(dirpath, src)
         for dirname in dirnames:
