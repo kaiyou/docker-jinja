@@ -62,6 +62,8 @@ def walk_convert(client, src, dst):
     )
     containers = [client.inspect_container(container["Id"])
                   for container in client.containers()]
+    networks = [client.inspect_network(network["Id"])
+                for network in client.networks()]
     os.makedirs(dst, exist_ok=True)
     for dirpath, dirnames, filenames in os.walk(src):
         relpath = os.path.relpath(dirpath, src)
@@ -73,7 +75,7 @@ def walk_convert(client, src, dst):
                 template = env.from_string(src_file.read())
             with open(os.path.join(dst, relpath, filename), "w") as dst_file:
                 dst_file.write(template.render(
-                    containers=containers, utils=utils))
+                    containers=containers, networks=networks, utils=utils))
 
 
 if __name__ == "__main__":
