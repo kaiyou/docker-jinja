@@ -26,3 +26,6 @@ def get_ssl(path, domain):
     for checked in (parent, domain):
         if os.path.exists(os.path.join(path, "%s.crt" % checked)):
             return "%s.crt" % checked, "%s.key" % checked
+
+
+environ = os.environ.get
